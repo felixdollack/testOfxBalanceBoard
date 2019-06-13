@@ -1,0 +1,3 @@
+[submodule "src/ofxBalanceBoard"]
+	path = src/ofxBalanceBoard
+	url = https://github.com/felixdollack/ofxBalanceBoard.git
