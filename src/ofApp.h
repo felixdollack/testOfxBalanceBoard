@@ -1,10 +1,17 @@
 #pragma once
 
 #include "ofMain.h"
+#include "balance_board.hpp"
 
 class ofApp : public ofBaseApp{
 
 	public:
+        Balanceboard *balance_thread;
+        BalanceData balance_data;
+
+        // for visualization
+        float screen_width, screen_height;
+
 		void setup();
 		void update();
 		void draw();
