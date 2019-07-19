@@ -4,6 +4,9 @@
 void ofApp::setup(){
     int oscPort = 9000;
 
+    this->normalizeWeight = false;
+    this->userPresent = false;
+
     // for visualization
     this->screen_width = ofGetWindowWidth();
     this->screen_height = ofGetWindowHeight();
@@ -17,6 +20,21 @@ void ofApp::setup(){
 void ofApp::update(){
     // update local balance data
     this->balance_data = this->balance_thread->getBalanceData();
+
+    this->maxWeight = std::max(this->maxWeight, this->balance_data.sum);
+
+    if (this->balance_data.sum < 0.002) {
+        if (this->userPresent) {
+            cout << "person stepped off" << endl;
+        }
+        this->userPresent = false;
+        this->maxWeight = 0.0f;
+    } else {
+        if (this->userPresent == false) {
+            cout << "person stepped on" << endl;
+        }
+        this->userPresent = true;
+    }
 }
 
 //--------------------------------------------------------------
@@ -34,7 +52,13 @@ void ofApp::draw(){
     ofDrawCircle(0.9 * screen_width, 0.9 * screen_height, 100 * this->balance_data.bottom_right);
 
     // draw virtual X axis of wiiFit
-    float xpos = (0.1 * screen_width) + ((0.8 * screen_width) * this->balance_data.virtual_x);
+    float xpos;
+    if (this->normalizeWeight) {
+        xpos = (0.5 * screen_width) + ((0.4 * screen_width) * ((this->balance_data.virtual_x-0.5)/(this->maxWeight/2)));
+    } else {
+        xpos = (0.1 * screen_width) + ((0.8 * screen_width) * this->balance_data.virtual_x);
+    }
+
     ofDrawLine(clearance,                clearance,
                screen_width - clearance, clearance);                 // x line top
     ofDrawLine(clearance,                screen_height - clearance,
@@ -56,6 +80,12 @@ void ofApp::draw(){
                screen_width - clearance, ypos);                      // intersection Y
 
     // draw center of mass and weight
+    ofNoFill();
+    ofSetColor(ofColor::lightGray);
+    ofDrawCircle(xpos, ypos, 100 * this->maxWeight);
+
+    ofFill();
+    ofSetColor(ofColor::royalBlue);
     ofDrawCircle(xpos, ypos, 100 * this->balance_data.sum);
 
     // draw absolute center
@@ -68,7 +98,13 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if (key == 110) { // n(ormalize)
+        if (this->normalizeWeight) {
+            this->normalizeWeight = false;
+        } else {
+            this->normalizeWeight = true;
+        }
+    }
 }
 
 //--------------------------------------------------------------
