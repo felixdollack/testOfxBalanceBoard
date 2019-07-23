@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    // osculator forwarding address: osc.udp://localhost:9000
     int oscPort = 9000;
 
     // for visualization
