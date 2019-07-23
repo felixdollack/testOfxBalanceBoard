@@ -36,10 +36,10 @@ void ofApp::draw(){
     ofDrawLine(screen_width - clearance, (0.1 * screen_height),
                screen_width - clearance, (0.9 * screen_height));     // y line right
 
-    float xpos1 = (0.1 * screen_width) + ((0.8 * screen_width) * this->balance_data.virtual_x[0]);
-    float ypos1 = (0.1 * screen_height) + ((0.8 * screen_height) * this->balance_data.virtual_x[1]);
-    float xpos2 = (0.1 * screen_width) + ((0.8 * screen_width) * this->balance_data.virtual_x[2]);
-    float ypos2 = (0.9 * screen_height) - ((0.8 * screen_height) * this->balance_data.virtual_x[3]);
+    float xpos1 = (0.9 * screen_width) - ((0.8 * screen_width) * this->balance_data.virtual_x[0]); // top
+    float ypos1 = (0.1 * screen_height) + ((0.8 * screen_height) * this->balance_data.virtual_x[1]); // left
+    float xpos2 = (0.1 * screen_width) + ((0.8 * screen_width) * this->balance_data.virtual_x[2]); // right
+    float ypos2 = (0.9 * screen_height) - ((0.8 * screen_height) * this->balance_data.virtual_x[3]); // bottom
 
     ofDrawCircle(xpos1, clearance,                 circle_size);      // circle top
     ofDrawCircle(clearance,                ypos1, circle_size);       // circle left
